@@ -1,10 +1,20 @@
+// Tile.js
 import React from 'react';
+import { useSpring, animated } from 'react-spring';
 
 const Tile = ({ number, onClick }) => {
+    const [style, set] = useSpring(() => ({ transform: 'scale(1)', config: { tension: 1000, friction: 5 } }));
+
+    const handleClick = () => {
+        set.start({ transform: 'scale(1.05)' })
+        setTimeout(() => set.start({ transform: 'scale(1)' }), 500);
+        onClick();
+    }
+
     return (
-        <div className={`tile ${number === null ? 'empty' : ''}`} onClick={onClick}>
+        <animated.div className={`tile ${number === null ? 'empty' : ''}`} style={style} onClick={handleClick}>
             {number !== null && number}
-        </div>
+        </animated.div>
     );
 };
 
